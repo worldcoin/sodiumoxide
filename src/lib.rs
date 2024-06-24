@@ -63,12 +63,12 @@
 // Remove this after https://github.com/sodiumoxide/sodiumoxide/issues/221 is done
 #![allow(clippy::result_unit_err)]
 
-extern crate libsodium_sys as ffi;
-
 extern crate ed25519;
 extern crate libc;
+extern crate libsodium_sys as ffi;
 #[cfg(any(test, feature = "serde"))]
 extern crate serde;
+extern crate zeroize;
 #[cfg(not(feature = "std"))]
 #[macro_use]
 extern crate alloc;

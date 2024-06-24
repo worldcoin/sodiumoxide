@@ -19,6 +19,14 @@ new_type! {
     public Key(KEYBYTES);
 }
 
+use zeroize::Zeroize;
+
+impl Zeroize for Key {
+    fn zeroize(&mut self) {
+        self.0.zeroize()
+    }
+}
+
 /// `gen_key()` randomly generates a key for key derivation.
 ///
 /// THREAD SAFETY: `gen_key()` is thread-safe provided that you have
