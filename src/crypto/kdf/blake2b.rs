@@ -1,6 +1,7 @@
 //! `blake2b` is the current default key derivation scheme of `libsodium`.
 
 use ffi;
+use zeroize::Zeroize;
 
 /// Number of bytes in a `Key`.
 pub const KEYBYTES: usize = ffi::crypto_kdf_blake2b_KEYBYTES as usize;
@@ -17,6 +18,13 @@ pub const BYTES_MAX: usize = ffi::crypto_kdf_blake2b_BYTES_MAX as usize;
 new_type! {
     /// `Key` for key derivation.
     public Key(KEYBYTES);
+}
+
+// Zeroize is not implemented for this crate, so we need to implement it manually.
+impl Zeroize for Key {
+    fn zeroize(&mut self) {
+        self.0.zeroize()
+    }
 }
 
 /// `gen_key()` randomly generates a key for key derivation.
