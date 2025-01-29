@@ -17,7 +17,7 @@ deprecate it.
 # sodiumoxide
 
 |Crate|Documentation|Gitter|
-|:---:|:-----------:|:--------:|:-----:|:------:|:----:|
+|:--------------------------------------:|:---------------------------:|:-----------------------------------:|
 |[![Crates.io][crates-badge]][crates-url]|[![Docs][doc-badge]][doc-url]|[![Gitter][gitter-badge]][gitter-url]|
 
 [crates-badge]: https://img.shields.io/crates/v/sodiumoxide.svg
