@@ -179,7 +179,7 @@ fn make_libsodium(target: &str, source_dir: &Path, install_dir: &Path) -> PathBu
         let ios_version_min = "6.0.0";
 
         // Roughly based on `dist-build/ios.sh` in the libsodium sources
-        match &*target {
+        match target {
             "aarch64-apple-ios-sim" => {
                 host_arg = "--host=arm-apple-darwin10".to_string();
             }
@@ -247,7 +247,7 @@ fn make_libsodium(target: &str, source_dir: &Path, install_dir: &Path) -> PathBu
         configure_cmd.arg("--disable-pie");
     }
     let configure_status = configure_cmd
-        .current_dir(&source_dir)
+        .current_dir(source_dir)
         .arg(&prefix_arg)
         .arg(&libdir_arg)
         .arg(&host_arg)
@@ -268,7 +268,7 @@ fn make_libsodium(target: &str, source_dir: &Path, install_dir: &Path) -> PathBu
     let make_arg = if cross_compiling { "all" } else { "check" };
     let mut make_cmd = Command::new("make");
     let make_status = make_cmd
-        .current_dir(&source_dir)
+        .current_dir(source_dir)
         .env("V", "1")
         .arg(make_arg)
         .arg(&j_arg)
@@ -283,7 +283,7 @@ fn make_libsodium(target: &str, source_dir: &Path, install_dir: &Path) -> PathBu
     // Run `make install`
     let mut install_cmd = Command::new("make");
     let install_status = install_cmd
-        .current_dir(&source_dir)
+        .current_dir(source_dir)
         .arg("install")
         .status()
         .unwrap_or_else(|error| {

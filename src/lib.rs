@@ -59,7 +59,6 @@
 #![warn(non_camel_case_types)]
 #![warn(unused_qualifications)]
 #![cfg_attr(not(feature = "std"), no_std)]
-#![deny(clippy::all)]
 // Remove this after https://github.com/sodiumoxide/sodiumoxide/issues/221 is done
 #![allow(clippy::result_unit_err)]
 

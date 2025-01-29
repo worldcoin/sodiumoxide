@@ -1,4 +1,5 @@
 macro_rules! newtype_clone (($newtype:ident) => (
+        #[allow(clippy::non_canonical_clone_impl)]
         impl Clone for $newtype {
             fn clone(&self) -> $newtype {
                 let &$newtype(v) = self;
@@ -131,6 +132,7 @@ macro_rules! newtype_traits (($newtype:ident, $len:expr) => (
     ));
 
 macro_rules! public_newtype_traits (($newtype:ident) => (
+    #[allow(clippy::non_canonical_partial_ord_impl)]
     impl ::std::cmp::PartialOrd for $newtype {
         #[inline]
         fn partial_cmp(&self,
