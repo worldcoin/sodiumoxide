@@ -10,6 +10,7 @@ repository = "https://github.com/sodiumoxide/sodiumoxide"
 categories = ["cryptography"]
 version = "0.2.7"
 exclude = ["**/.gitignore", ".github/*"]
+edition = "2015"
 
 [workspace]
 members = ["libsodium-sys", "testcrate"]
