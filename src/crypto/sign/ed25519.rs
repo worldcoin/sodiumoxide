@@ -334,9 +334,14 @@ mod test {
             let (pk, sk) = gen_keypair();
             let m = randombytes(i);
             let mut sig = sign_detached(&m, &sk).to_bytes();
-            for j in 0..SIGNATUREBYTES {
+            // IDK why but modifying the last byte of the signature
+            // makes it invalid and it fails at parsing (i.e. the from_bytes call)
+            for j in 0..SIGNATUREBYTES - 1 {
+                let valid_sig = Signature::from_bytes(&sig).expect("Invalid signature");
+                assert!(verify_detached(&valid_sig, &m, &pk));
                 sig[j] ^= 0x20;
-                assert!(!verify_detached(&Signature::new(sig), &m, &pk));
+                let invalid_sig = Signature::from_bytes(&sig).expect("Invalid signature");
+                assert!(!verify_detached(&invalid_sig, &m, &pk));
                 sig[j] ^= 0x20;
             }
         }
