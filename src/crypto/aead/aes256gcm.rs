@@ -191,6 +191,7 @@ mod aes_api {
         use crate::init;
 
         #[cfg(feature = "std")]
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         #[test]
         fn test_is_available() {
             init().unwrap();
