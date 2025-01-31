@@ -230,7 +230,7 @@ mod test {
                 line.clear();
                 r.read_line(&mut line).unwrap();
                 assert!(line.starts_with("hash:"));
-                hex::decode(&line[5..].trim()).unwrap()
+                hex::decode(line[5..].trim()).unwrap()
             };
 
             let mut hasher = State::new(Some(64), Some(&key)).unwrap();
