@@ -1,4 +1,0 @@
-[submodule "libsodium-sys/libsodium"]
-	path = libsodium-sys/libsodium
-	url = https://github.com/worldcoin/libsodium.git
-	branch = sodiumoxide-pin
