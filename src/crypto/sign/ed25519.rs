@@ -164,7 +164,7 @@ pub fn sign_detached(m: &[u8], sk: &SecretKey) -> Signature {
         );
     }
     assert_eq!(siglen, SIGNATUREBYTES as c_ulonglong);
-    Signature::new(sig)
+    Signature::from_bytes(&sig).expect("Failed to parse signature")
 }
 
 /// `verify_detached()` verifies the signature in `sig` against the message `m`
@@ -208,7 +208,7 @@ impl State {
     /// `finalize()` finalizes the hashing computation and returns a `Signature`.
     // Moves self becuase libsodium says the state should not be used
     // anymore after final().
-    pub fn finalize(mut self, &SecretKey(ref sk): &SecretKey) -> Signature {
+    pub fn finalize(mut self, SecretKey(sk): &SecretKey) -> Signature {
         let mut sig = [0u8; SIGNATUREBYTES];
         let mut siglen: c_ulonglong = 0;
         unsafe {
@@ -220,11 +220,11 @@ impl State {
             );
         }
         assert_eq!(siglen, SIGNATUREBYTES as c_ulonglong);
-        Signature::new(sig)
+        Signature::from_bytes(&sig).expect("Failed to parse signature")
     }
 
     /// `verify` verifies the signature in `sm` using the signer's public key `pk`.
-    pub fn verify(&mut self, sig: &Signature, &PublicKey(ref pk): &PublicKey) -> bool {
+    pub fn verify(&mut self, sig: &Signature, PublicKey(pk): &PublicKey) -> bool {
         let mut sig = sig.to_bytes();
         let ret = unsafe {
             ffi::crypto_sign_ed25519ph_final_verify(&mut self.0, sig.as_mut_ptr(), pk.as_ptr())
@@ -334,9 +334,14 @@ mod test {
             let (pk, sk) = gen_keypair();
             let m = randombytes(i);
             let mut sig = sign_detached(&m, &sk).to_bytes();
-            for j in 0..SIGNATUREBYTES {
+            // IDK why but modifying the last byte of the signature
+            // makes it invalid and it fails at parsing (i.e. the from_bytes call)
+            for j in 0..SIGNATUREBYTES - 1 {
+                let valid_sig = Signature::from_bytes(&sig).expect("Invalid signature");
+                assert!(verify_detached(&valid_sig, &m, &pk));
                 sig[j] ^= 0x20;
-                assert!(!verify_detached(&Signature::new(sig), &m, &pk));
+                let invalid_sig = Signature::from_bytes(&sig).expect("Invalid signature");
+                assert!(!verify_detached(&invalid_sig, &m, &pk));
                 sig[j] ^= 0x20;
             }
         }

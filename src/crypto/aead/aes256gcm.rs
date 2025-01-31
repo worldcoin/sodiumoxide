@@ -191,6 +191,7 @@ mod aes_api {
         use crate::init;
 
         #[cfg(feature = "std")]
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         #[test]
         fn test_is_available() {
             init().unwrap();
@@ -203,7 +204,7 @@ mod aes_api {
         fn test_seal_open() {
             init().unwrap();
             use randombytes::randombytes;
-            let aes = Aes256Gcm::new().unwrap();
+            let aes = Aes256Gcm::new().expect("Aes256Gcm is unavailable");
             for i in 0..256usize {
                 let k = aes.gen_key();
                 let n = gen_random_nonce();
@@ -219,7 +220,7 @@ mod aes_api {
         fn test_seal_open_detached() {
             init().unwrap();
             use randombytes::randombytes;
-            let aes = Aes256Gcm::new().unwrap();
+            let aes = Aes256Gcm::new().expect("Aes256Gcm is unavailable");
             for i in 0..256usize {
                 let k = aes.gen_key();
                 let n = gen_random_nonce();

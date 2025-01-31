@@ -76,11 +76,11 @@ mod test {
                 let len: usize = line[6..].trim().parse().unwrap();
                 line.clear();
                 r.read_line(&mut line).unwrap();
-                let rawmsg = hex::decode(&line[6..].trim()).unwrap();
+                let rawmsg = hex::decode(line[6..].trim()).unwrap();
                 let msg = &rawmsg[..len / 8];
                 line.clear();
                 r.read_line(&mut line).unwrap();
-                let md = hex::decode(&line[5..].trim()).unwrap();
+                let md = hex::decode(line[5..].trim()).unwrap();
                 let Digest(digest) = hash(msg);
                 assert!(digest[..] == md[..]);
             }

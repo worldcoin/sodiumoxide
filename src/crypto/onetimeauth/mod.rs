@@ -30,6 +30,7 @@
 
 pub use self::poly1305::*;
 #[path = "../auth/auth_macros.rs"]
+#[allow(clippy::duplicate_mod)] // TODO: Use proper macro imports once updated to edition 2021 (or 2024?)
 #[macro_use]
 mod auth_macros;
 pub mod poly1305;
