@@ -123,6 +123,7 @@ pub fn gen_nonce() -> Nonce {
 
 /// `seal()` encrypts and authenticates a message `m` using the senders secret key `sk`,
 /// the receivers public key `pk` and a nonce `n`. It returns a ciphertext `c`.
+#[allow(clippy::uninit_vec)] // this is ok, because any binary representation is valid for u8
 pub fn seal(m: &[u8], n: &Nonce, pk: &PublicKey, sk: &SecretKey) -> Vec<u8> {
     let clen = m.len() + MACBYTES;
     let mut c = Vec::with_capacity(clen);

@@ -48,6 +48,7 @@ impl AsRef<[u8]> for Digest {
     }
 }
 
+#[allow(clippy::non_canonical_partial_ord_impl)]
 impl PartialOrd for Digest {
     #[inline]
     fn partial_cmp(&self, other: &Digest) -> Option<Ordering> {

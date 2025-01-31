@@ -208,7 +208,7 @@ impl State {
     /// `finalize()` finalizes the hashing computation and returns a `Signature`.
     // Moves self becuase libsodium says the state should not be used
     // anymore after final().
-    pub fn finalize(mut self, &SecretKey(ref sk): &SecretKey) -> Signature {
+    pub fn finalize(mut self, SecretKey(sk): &SecretKey) -> Signature {
         let mut sig = [0u8; SIGNATUREBYTES];
         let mut siglen: c_ulonglong = 0;
         unsafe {
@@ -224,7 +224,7 @@ impl State {
     }
 
     /// `verify` verifies the signature in `sm` using the signer's public key `pk`.
-    pub fn verify(&mut self, sig: &Signature, &PublicKey(ref pk): &PublicKey) -> bool {
+    pub fn verify(&mut self, sig: &Signature, PublicKey(pk): &PublicKey) -> bool {
         let mut sig = sig.to_bytes();
         let ret = unsafe {
             ffi::crypto_sign_ed25519ph_final_verify(&mut self.0, sig.as_mut_ptr(), pk.as_ptr())
