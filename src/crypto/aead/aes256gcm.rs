@@ -47,12 +47,6 @@ mod aes_impl {
 
         #[test]
         fn test_vector_1() {
-            crate::init().expect("Failed to initialize");
-            if !is_available() {
-                println!("AES-256-GCM is not available on this platform");
-                return;
-            }
-
             // Test vector from https://tools.ietf.org/html/rfc7714#section-16.2.2
             let m = &[
                 0x47, 0x61, 0x6c, 0x6c, 0x69, 0x61, 0x20, 0x65, 0x73, 0x74, 0x20, 0x6f, 0x6d, 0x6e,
@@ -210,10 +204,7 @@ mod aes_api {
         fn test_seal_open() {
             init().unwrap();
             use randombytes::randombytes;
-            let Ok(aes) = Aes256Gcm::new() else {
-                println!("Aes256Gcm is not available on this platform");
-                return;
-            };
+            let aes = Aes256Gcm::new().expect("Aes256Gcm is unavailable");
             for i in 0..256usize {
                 let k = aes.gen_key();
                 let n = gen_random_nonce();
@@ -229,10 +220,7 @@ mod aes_api {
         fn test_seal_open_detached() {
             init().unwrap();
             use randombytes::randombytes;
-            let Ok(aes) = Aes256Gcm::new() else {
-                println!("Aes256Gcm is not available on this platform");
-                return;
-            };
+            let aes = Aes256Gcm::new().expect("Aes256Gcm is unavailable");
             for i in 0..256usize {
                 let k = aes.gen_key();
                 let n = gen_random_nonce();

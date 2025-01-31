@@ -12,7 +12,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-static VERSION: &str = "1.0.18";
+static VERSION: &str = "1.0.20";
 
 fn main() {
     println!("cargo:rerun-if-env-changed=SODIUM_LIB_DIR");

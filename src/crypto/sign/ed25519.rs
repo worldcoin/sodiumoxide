@@ -164,7 +164,7 @@ pub fn sign_detached(m: &[u8], sk: &SecretKey) -> Signature {
         );
     }
     assert_eq!(siglen, SIGNATUREBYTES as c_ulonglong);
-    Signature::new(sig)
+    Signature::from_bytes(&sig).expect("Failed to parse signature")
 }
 
 /// `verify_detached()` verifies the signature in `sig` against the message `m`
@@ -220,7 +220,7 @@ impl State {
             );
         }
         assert_eq!(siglen, SIGNATUREBYTES as c_ulonglong);
-        Signature::new(sig)
+        Signature::from_bytes(&sig).expect("Failed to parse signature")
     }
 
     /// `verify` verifies the signature in `sm` using the signer's public key `pk`.

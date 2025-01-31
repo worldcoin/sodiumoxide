@@ -120,7 +120,7 @@ cargo build
 See https://download.libsodium.org/doc/installation.
 
 ```
-export SODIUM_LIB_DIR=/home/user/libsodium-1.0.18/release/lib/
+export SODIUM_LIB_DIR=/home/user/libsodium-1.0.20/release/lib/
 export SODIUM_SHARED=1
 cargo build
 ```
